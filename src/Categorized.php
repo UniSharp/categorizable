@@ -29,7 +29,7 @@ trait Categorized
     public function detagId($id)
     {
         $tags = (array)$id;
-        $this->deag($tags);
+        $this->detag($tags);
     }
 
     public function scopeWithAllTagsId(Builder $query, $id): Builder
