@@ -11,7 +11,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         $this->artisan('migrate', ['--database' => 'test']);
-        $this->beforeApplicationDestroyed(function() {
+        $this->beforeApplicationDestroyed(function () {
             $this->artisan('migrate:rollback');
         });
     }

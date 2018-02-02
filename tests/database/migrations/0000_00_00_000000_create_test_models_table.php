@@ -12,7 +12,7 @@ class CreateTestModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_models', function(Blueprint $table) {
+        Schema::create('test_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
         });

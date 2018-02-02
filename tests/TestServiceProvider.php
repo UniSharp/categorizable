@@ -3,7 +3,6 @@ namespace UniSharp\Category\Test;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
-
 /**
  * Class TestServiceProvider
  */
