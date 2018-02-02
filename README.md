@@ -7,8 +7,6 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```Xing``` ```Nehemis1615``` ```https://github.com/Nehemis1615``` ```xing1615@gmail.com``` ```UniSharp``` ```category``` ```categorize model``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
-
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
 PSRs you support to avoid any confusion with users and contributors.
 
@@ -35,10 +33,7 @@ $ composer require UniSharp/category
 
 ## Usage
 
-``` php
-$skeleton = new UniSharp\Category();
-echo $skeleton->echoPhrase('Hello, League!');
-```
+
 
 ## Change log
 
