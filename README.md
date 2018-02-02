@@ -12,14 +12,11 @@ PSRs you support to avoid any confusion with users and contributors.
 
 ## Structure
 
-If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
 
 ```
-bin/        
 config/
 src/
 tests/
-vendor/
 ```
 
 
@@ -33,7 +30,29 @@ $ composer require UniSharp/category
 
 ## Usage
 
+``` php
+use UniSharp\Category\Categorized;
 
+class testModel extends Model{
+
+    use Categorized;
+}
+```
+
+you can tag, retag, detag, untag, by id
+
+``` php
+testModel->tagId(1);
+testModel->untagId(1);
+testModel->retagId(2);
+testModel->detagId(2);
+```
+
+alse use id find Model (get model)
+
+``` php
+TestModel::withAllTagsId(2)
+```
 
 ## Change log
 
