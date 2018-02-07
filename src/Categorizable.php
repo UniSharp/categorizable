@@ -3,38 +3,34 @@ namespace UniSharp\Category;
 
 use Cviebrock\EloquentTaggable\Taggable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait Categorizable
 {
     use Taggable;
-    
-    public function tagId($id)
+
+    public function categories(): MorphToMany
     {
-        $tags = (array)$id;
-        $this->tag($tags);
+        return $this->tags();
     }
 
-    public function retagId($id)
+    public function categorize($categories)
     {
-        $tags = (array)$id;
-        $this->retag($tags);
+        return $this->tag($categories);
     }
 
-    public function untagId($id)
+    public function decategorize($categories)
     {
-        $tags = (array)$id;
-        $this->untag($tags);
+        return $this->untag($categories);
     }
 
-    public function detagId($id)
+    public function recategorize($categories)
     {
-        $tags = (array)$id;
-        $this->detag($tags);
+        return $this->retag($categories);
     }
 
-    public function scopeWithAllTagsId(Builder $query, $id): Builder
+    public function scopeWithAllCategories(Builder $query, $categories): Builder
     {
-        $tags = (array)$id;
         return $this->scopeWithAllTags($query, $tags);
     }
 }

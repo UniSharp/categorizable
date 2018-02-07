@@ -2,8 +2,10 @@
 namespace UniSharp\Category\Test;
 
 use UniSharp\Category\Test\TestCase;
-use UniSharp\Category\Models\Category;
 use UniSharp\Category\Test\TestModel;
+use UniSharp\Category\Models\Category;
+use UniSharp\Category\Services\TagService as UnisharpTagService;
+use Cviebrock\EloquentTaggable\Services\TagService;
 
 class CategoriesTest extends TestCase
 {
@@ -11,23 +13,64 @@ class CategoriesTest extends TestCase
     {
         parent::setUp();
         $this->testModel = $this->newModel();
+        $this->app->singleton(TagService::class, UnisharpTagService::class);
     }
 
     // tag所需用id(Integer屬性)
     public function testCategoryAddIntegerId()
     {
-        $this->testModel->tagId(1);
+        $this->testModel->categorize(1);
         $this->assertCount(1, $this->testModel->tags);
         $arr = [2,3,4,1];
-        $this->testModel->tagId($arr);
+        $this->testModel->categorize($arr);
         $this->assertCount(4, $this->testModel->tags);
     }
+
+    public function testCategorize()
+    {
+        $model = TestModel::create(['title' => 'test']);
+        $model->categorize("News");
+        $this->assertEquals("News", $model->categories->pluck('name')->first());
+    }
+
+    public function testCategorizeDelimeter()
+    {
+        $model = TestModel::create(['title' => 'test']);
+        $model->categorize("News,Products");
+        $this->assertArraySubset(["News", "Products"], $model->categories->pluck('name')->toArray());
+    }
+
+    public function testCategorizeArray()
+    {
+        $model = TestModel::create(['title' => 'test']);
+        $model->categorize(["News", "Products"]);
+        $this->assertArraySubset(["News", "Products"], $model->categories->pluck('name')->toArray());
+    }
+
+    public function testCategorizeById()
+    {
+        $model = TestModel::create(['title' => 'test']);
+        $foo = Category::create(["name" => "foo"]);
+        $bar = Category::create(["name" => "bar"]);
+        $model->categorize("{$bar->tag_id}");
+        $this->assertCount(1, $model->categories);
+        $this->assertEquals($bar->id, $model->categories->pluck('id')->first());
+    }
+
+    public function testCategorizeByManyId()
+    {
+        $model = TestModel::create(['title' => 'test']);
+        $foo = Category::create(["name" => "foo"]);
+        $bar = Category::create(["name" => "bar"]);
+        $model->categorize(["{$foo->tag_id}", "{$bar->tag_id}"]);
+        $this->assertCount(2, $model->categories);
+        $this->assertEquals([$foo->tag_id, $bar->tag_id], $model->categories->pluck('tag_id')->toArray());
+    }
     
-    //
     public function testCategoryUnTagId()
     {
-        $this->testModel->tagId([1,2,3]);
-        $this->testModel->untagId(1);
+        $this->testModel->categorize([1,2,3]);
+        $this->testModel->decategorize(1);
         $this->assertEquals(
             "2,3",
             $this->testModel->tagList
@@ -36,8 +79,8 @@ class CategoriesTest extends TestCase
 
     public function testCategoryReTagId()
     {
-        $this->testModel->tagId(1);
-        $this->testModel->retagId(2);
+        $this->testModel->categorize(1);
+        $this->testModel->recategorize(2);
         $this->assertEquals(
             2,
             $this->testModel->tagList
@@ -46,41 +89,11 @@ class CategoriesTest extends TestCase
 
     public function testCategoryDeTagId()
     {
-        $this->testModel->tagId(1);
-        $this->testModel->detagId(1);
+        $this->testModel->categorize(1);
+        $this->testModel->decategorize(1);
         $this->assertEquals(
             "",
             $this->testModel->tagList
-        );
-    }
-
-    public function testIntegerOneIdGetModel()
-    {
-        $arr = [2,3,4,1];
-        $this->testModel->tagId($arr);
-        $model = $this->newModel(["title" => "apple"]);
-        $model->tagId(2);
-        $test = $this->newModel(["title" => "banana"]);
-        $this->assertCount(2, TestModel::withAllTagsId(2)->get());
-        $title = TestModel::withAllTagsId([2])->get();
-        $this->assertEquals(
-            "apple",
-            $title[1]->title
-        );
-    }
-
-    public function testIntegerManyIdGetModel()
-    {
-        $arr = [2,3,4,1];
-        $this->testModel->tagId($arr);
-        $model = $this->newModel(["title" => "apple"]);
-        $model->tagId(2);
-        $test = $this->newModel(["title" => "banana"]);
-        $this->assertCount(2, TestModel::withAllTagsId(2)->get());
-        $title = TestModel::withAllTagsId([2,4])->get();
-        $this->assertEquals(
-            "test",
-            $title[0]->title
         );
     }
 }
