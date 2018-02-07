@@ -39,13 +39,13 @@ class testModel extends Model{
 }
 ```
 
-you can tag, retag, detag, untag, by id
+you can categorize, recategorize, decategorize, uncategorize, by id
 
 ``` php
-testModel->tagId(1);
-testModel->untagId(1);
-testModel->retagId(2);
-testModel->detagId(2);
+testModel->categorize(1);
+testModel->recategorize(1);
+testModel->decategorize(0);
+testModel->uncategorize(2);
 ```
 
 alse use id find Model (get model)

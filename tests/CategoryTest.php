@@ -70,7 +70,7 @@ class CategoriesTest extends TestCase
     public function testCategoryUnTagId()
     {
         $this->testModel->categorize([1,2,3]);
-        $this->testModel->decategorize(1);
+        $this->testModel->uncategorize(1);
         $this->assertEquals(
             "2,3",
             $this->testModel->tagList
@@ -90,7 +90,7 @@ class CategoriesTest extends TestCase
     public function testCategoryDeTagId()
     {
         $this->testModel->categorize(1);
-        $this->testModel->decategorize(1);
+        $this->testModel->uncategorize(1);
         $this->assertEquals(
             "",
             $this->testModel->tagList

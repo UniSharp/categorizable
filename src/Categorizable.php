@@ -19,9 +19,14 @@ trait Categorizable
         return $this->tag($categories);
     }
 
-    public function decategorize($categories)
+    public function uncategorize($categories)
     {
         return $this->untag($categories);
+    }
+
+    public function decategorize($categories)
+    {
+        return $this->detag($categories);
     }
 
     public function recategorize($categories)
