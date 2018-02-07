@@ -1,5 +1,5 @@
 {
-    "name": "UniSharp/category",
+    "name": "UniSharp/categorizable",
     "type": "library",
     "description": "categorize model",
     "keywords": [
