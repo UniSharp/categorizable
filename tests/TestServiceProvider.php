@@ -1,5 +1,5 @@
 <?php 
-namespace UniSharp\Category\Test;
+namespace UniSharp\Categorizable\Test;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 

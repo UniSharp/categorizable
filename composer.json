@@ -34,12 +34,12 @@
     },
     "autoload": {
         "psr-4": {
-            "UniSharp\\Category\\": "src"
+            "UniSharp\\Categorizable\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "UniSharp\\Category\\Test\\": "tests"
+            "UniSharp\\Categorizable\\Test\\": "tests"
         }
     },
     "scripts": {
@@ -50,6 +50,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "UniSharp\\Categorizable\\Providers\\ServiceProvider"
+            ]
         }
     },
     "config": {

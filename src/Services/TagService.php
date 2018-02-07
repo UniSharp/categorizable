@@ -1,5 +1,5 @@
 <?php
-namespace UniSharp\Category\Services;
+namespace UniSharp\Categorizable\Services;
 
 use Cviebrock\EloquentTaggable\Models\Tag;
 use Cviebrock\EloquentTaggable\Services\TagService as OriginalTagService;

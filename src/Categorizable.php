@@ -1,5 +1,5 @@
 <?php
-namespace UniSharp\Category;
+namespace UniSharp\Categorizable;
 
 use Cviebrock\EloquentTaggable\Taggable;
 use Illuminate\Database\Eloquent\Builder;

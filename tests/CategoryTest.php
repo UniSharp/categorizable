@@ -1,10 +1,10 @@
 <?php
-namespace UniSharp\Category\Test;
+namespace UniSharp\Categorizable\Test;
 
-use UniSharp\Category\Test\TestCase;
-use UniSharp\Category\Test\TestModel;
-use UniSharp\Category\Models\Category;
-use UniSharp\Category\Services\TagService as UnisharpTagService;
+use UniSharp\Categorizable\Test\TestCase;
+use UniSharp\Categorizable\Test\TestModel;
+use UniSharp\Categorizable\Models\Category;
+use UniSharp\Categorizable\Services\TagService as UnisharpTagService;
 use Cviebrock\EloquentTaggable\Services\TagService;
 
 class CategoriesTest extends TestCase

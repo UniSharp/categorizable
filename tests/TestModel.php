@@ -1,7 +1,7 @@
 <?php 
-namespace UniSharp\Category\Test;
+namespace UniSharp\Categorizable\Test;
 
-use UniSharp\Category\Categorizable;
+use UniSharp\Categorizable\Categorizable;
 use Illuminate\Database\Eloquent\Model;
 
 /**

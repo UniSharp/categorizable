@@ -1,5 +1,5 @@
 <?php 
-namespace UniSharp\Category\Test;
+namespace UniSharp\Categorizable\Test;
 
 use Cviebrock\EloquentTaggable\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

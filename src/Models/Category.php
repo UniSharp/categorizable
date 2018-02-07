@@ -1,6 +1,6 @@
 <?php
 
-namespace UniSharp\Category\Models;
+namespace UniSharp\Categorizable\Models;
 
 use Cviebrock\EloquentTaggable\Models\Tag;
 
