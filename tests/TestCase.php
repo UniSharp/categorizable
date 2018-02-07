@@ -4,7 +4,7 @@ namespace UniSharp\Category\Test;
 use Cviebrock\EloquentTaggable\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
-class TestCase extends Orchestra
+abstract class TestCase extends Orchestra
 {
     public function setUp()
     {

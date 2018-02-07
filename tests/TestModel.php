@@ -1,7 +1,7 @@
 <?php 
 namespace UniSharp\Category\Test;
 
-use UniSharp\Category\Categorized;
+use UniSharp\Category\Categorizable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TestModel extends Model
 {
-    use Categorized;
+    use Categorizable;
 
     /**
      * @inheritdoc
