@@ -53,7 +53,7 @@
         },
         "laravel": {
             "providers": [
-                "UniSharp\\Categorizable\\Providers\\ServiceProvider"
+                "UniSharp\\Categorizable\\Providers\\CategorizableServiceProvider"
             ]
         }
     },

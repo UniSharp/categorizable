@@ -1,12 +1,11 @@
 <?php
-
-namespace UniSharp\Categorizable\Providers
+namespace UniSharp\Categorizable\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Cviebrock\EloquentTaggable\Services\TagService;
 use UniSharp\Categorizable\Services\TagService as UnisharpTagService;
 
-class Categorizable extends ServiceProvider
+class CategorizableServiceProvider extends ServiceProvider
 {
     public function register()
     {
