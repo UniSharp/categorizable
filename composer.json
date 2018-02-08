@@ -10,6 +10,11 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "UniSharp",
+            "email": "opensource@unisharp.com",
+            "homepage": "https://www.unisharp.com"
+        },
+        {
             "name": "Xing",
             "email": "xing1615@gmail.com",
             "homepage": "https://github.com/Nehemis1615",
