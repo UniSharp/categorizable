@@ -1,8 +1,9 @@
 <?php 
 namespace UniSharp\Categorizable\Test;
 
-use Cviebrock\EloquentTaggable\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Cviebrock\EloquentTaggable\ServiceProvider;
+use UniSharp\Categorizable\Providers\CategorizableServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -32,6 +33,7 @@ abstract class TestCase extends Orchestra
     {
         return [
             ServiceProvider::class,
+            CategorizableServiceProvider::class,
             TestServiceProvider::class,
         ];
     }

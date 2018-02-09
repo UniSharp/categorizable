@@ -7,6 +7,12 @@ use UniSharp\Categorizable\Services\TagService as UnisharpTagService;
 
 class CategorizableServiceProvider extends ServiceProvider
 {
+    public function boot()
+    {
+        $this->loadMigrationsFrom(
+            __DIR__.'/../../database/migrations'
+        );
+    }
     public function register()
     {
         $this->app->singleton(TagService::class, UnisharpTagService::class);

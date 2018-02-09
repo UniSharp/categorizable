@@ -4,8 +4,8 @@ namespace UniSharp\Categorizable\Test;
 use UniSharp\Categorizable\Test\TestCase;
 use UniSharp\Categorizable\Test\TestModel;
 use UniSharp\Categorizable\Models\Category;
-use UniSharp\Categorizable\Services\TagService as UnisharpTagService;
 use Cviebrock\EloquentTaggable\Services\TagService;
+use UniSharp\Categorizable\Services\TagService as UnisharpTagService;
 
 class CategoriesTest extends TestCase
 {
@@ -95,5 +95,15 @@ class CategoriesTest extends TestCase
             "",
             $this->testModel->tagList
         );
+    }
+
+    public function testAssociateParent()
+    {
+        $parent = Category::create(['name' => 'parent']);
+        $child = Category::create(['name' => 'child']);
+
+        $child->parent()->associate($parent)->save();
+
+        $this->assertEquals('child', $parent->refresh()->children->first()->name);
     }
 }
