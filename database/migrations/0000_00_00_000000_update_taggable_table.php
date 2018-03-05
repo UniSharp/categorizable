@@ -32,8 +32,10 @@ class UpdateTaggableTable extends Migration
     {
         $connection = config('taggable.connection');
 
-        Schema::connection($connection)->table('taggable_tags', function (Blueprint $table) {
-            $table->dropForeign('taggable_tags_parent_id_foreign');
-        });
+        if (Schema::connection($connection)->hasTable('taggable_tags')) {
+            Schema::connection($connection)->table('taggable_tags', function (Blueprint $table) {
+                $table->dropForeign('taggable_tags_parent_id_foreign');
+            });
+        }
     }
 }
