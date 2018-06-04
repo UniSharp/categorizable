@@ -106,4 +106,17 @@ class CategoriesTest extends TestCase
 
         $this->assertEquals('child', $parent->refresh()->children->first()->name);
     }
+
+    public function testRemoveCategory()
+    {
+        $category = Category::create(['name' => 'parent']);
+        $this->testModel->categorize($category->tag_id);
+        $category->delete();
+
+        $this->assertSoftDeleted('taggable_tags', ['tag_id' => $category->tag_id]);
+        $this->assertSoftDeleted('taggable_taggables', [
+            'taggable_id' => $this->testModel->id,
+            'taggable_type' => get_class($this->testModel)
+        ]);
+    }
 }

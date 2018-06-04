@@ -20,6 +20,7 @@ class UpdateTaggableTable extends Migration
             $table->unsignedInteger('parent_id')->nullable();
             $table->foreign('parent_id')->references('tag_id')->on('taggable_tags')->onDelete('set null');
             $table->index('parent_id');
+            $table->softDeletes();
         });
     }
 
@@ -35,6 +36,7 @@ class UpdateTaggableTable extends Migration
         if (Schema::connection($connection)->hasTable('taggable_tags')) {
             Schema::connection($connection)->table('taggable_tags', function (Blueprint $table) {
                 $table->dropForeign('taggable_tags_parent_id_foreign');
+                $table->dropSoftDeletes();
             });
         }
     }
