@@ -17,9 +17,8 @@ class UpdateTaggableTable extends Migration
         $connection = config('taggable.connection');
 
         Schema::connection($connection)->table('taggable_tags', function (Blueprint $table) {
-            $table->unsignedInteger('parent_id')->nullable();
             $table->foreign('parent_id')->references('tag_id')->on('taggable_tags')->onDelete('set null');
-            $table->index('parent_id');
+            $table->nestedSet();
             $table->softDeletes();
         });
     }

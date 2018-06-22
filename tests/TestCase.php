@@ -1,6 +1,7 @@
-<?php 
+<?php
 namespace UniSharp\Categorizable\Test;
 
+use Kalnoy\Nestedset\NestedSetServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Cviebrock\EloquentTaggable\ServiceProvider;
 use UniSharp\Categorizable\Providers\CategorizableServiceProvider;
@@ -34,6 +35,7 @@ abstract class TestCase extends Orchestra
         return [
             ServiceProvider::class,
             CategorizableServiceProvider::class,
+            NestedSetServiceProvider::class,
             TestServiceProvider::class,
         ];
     }
