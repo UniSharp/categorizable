@@ -13,7 +13,8 @@ class Category extends Model
 
     public static function boot()
     {
-        static::deleted(function ($model) {
+        parent::boot();
+        static::deleting(function ($model) {
             collect(array_keys(config('categorizable.morphs')))->each(function ($relation) use ($model) {
                 $model->{$relation}()->sync([]);
             });
@@ -41,6 +42,7 @@ class Category extends Model
 
         return parent::getRelationValue($key);
     }
+
 
     public function __call($method, $arguments)
     {

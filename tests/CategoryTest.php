@@ -159,20 +159,10 @@ class CategoriesTest extends TestCase
 
     public function testAssociateParent()
     {
-        $node = Category::create([
-            'name' => 'Foo',
-            'children' => [
-                [
-                    'name' => 'Bar',
+        $parent = Category::create(['name' => 'parent']);
+        $child = Category::create(['name' => 'child', 'parent_id' => $parent->id]);
 
-                    'children' => [
-                        [ 'name' => 'Baz' ],
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->assertEquals('child', $parent->children->first()->name);
+        $this->assertEquals('child', $parent->refresh()->children->first()->name);
     }
 
     public function testRemoveCategory()
