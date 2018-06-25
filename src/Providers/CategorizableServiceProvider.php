@@ -12,9 +12,13 @@ class CategorizableServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(
             __DIR__.'/../../database/migrations'
         );
+
+        $this->publishes([
+            __DIR__ . '/../../resources/config/categorizable.php' => config_path('categorizable.php'),
+        ], 'config');
     }
     public function register()
     {
-        $this->app->singleton(TagService::class, UnisharpTagService::class);
+        $this->mergeConfigFrom(__DIR__ . '/../../resources/config/categorizable.php', 'categorizable');
     }
 }

@@ -16,28 +16,80 @@ class CategoriesTest extends TestCase
         $this->app->singleton(TagService::class, UnisharpTagService::class);
     }
 
-    // tag所需用id(Integer屬性)
-    public function testCategoryAddIntegerId()
+    public function testNormalizeInteger()
     {
-        $this->testModel->categorize(1);
-        $this->assertCount(1, $this->testModel->tags);
-        $arr = [2,3,4,1];
-        $this->testModel->categorize($arr);
-        $this->assertCount(4, $this->testModel->tags);
+        $foo = Category::create(['name' => 'foo']);
+        $bar = Category::create(['name' => 'bar']);
+        $model = new TestModel;
+        $this->assertArraySubset([$foo->id, $bar->id], $model->normalize([$foo->id, $bar->id]));
     }
 
-    public function testCategorize()
+    public function testNormalizeString()
+    {
+        $foo = Category::create(['name' => 'foo']);
+        $model = new TestModel;
+        $this->assertArraySubset([$foo->id], $model->normalize(['foo', 'bar']));
+        $this->assertDatabaseHas('categories', ['name' => 'bar']);
+    }
+
+    public function testNormalizeNestedArray()
+    {
+        $foo = Category::create(['name' => 'foo']);
+        $bar = Category::create(['name' => 'bar']);
+        $model = new TestModel;
+        $this->assertArraySubset([$foo->id, $bar->id], $model->normalize([[$foo->id, $bar->id]]));
+    }
+
+    public function testNormalizeNonExistence()
+    {
+        $foo = Category::create(['name' => 'foo']);
+        $model = new TestModel;
+        $this->assertEquals([$foo->id], $model->normalize([$foo->id, 15]));
+    }
+
+    public function testCategorizeIntegerIds()
+    {
+        $foo = Category::create(['name' => 'foo']);
+        $thing = TestModel::create(['title' => 'foo']);
+        $thing->categorize($foo->id);
+
+        $this->assertDatabaseHas('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $foo->id
+        ]);
+
+        $biz = Category::create(['name' => 'biz']);
+        $baz = Category::create(['name' => 'baz']);
+        $thing->categorize([$biz->id, $baz->id]);
+        $this->assertDatabaseHas('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $biz->id,
+        ]);
+
+        $this->assertDatabaseHas('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $baz->id
+        ]);
+    }
+
+    public function testCategorizeDuplicatedIntegerIds()
+    {
+        $foo = Category::create(['name' => 'foo']);
+        $thing = TestModel::create(['title' => 'foo']);
+
+        $thing->categorize($foo->id);
+        $thing->categorize($foo->id);
+        $this->assertCount(1, $thing->categories);
+    }
+
+    public function testCategorizeString()
     {
         $model = TestModel::create(['title' => 'test']);
         $model->categorize("News");
         $this->assertEquals("News", $model->categories->pluck('name')->first());
-    }
-
-    public function testCategorizeDelimeter()
-    {
-        $model = TestModel::create(['title' => 'test']);
-        $model->categorize("News,Products");
-        $this->assertArraySubset(["News", "Products"], $model->categories->pluck('name')->toArray());
     }
 
     public function testCategorizeArray()
@@ -47,76 +99,94 @@ class CategoriesTest extends TestCase
         $this->assertArraySubset(["News", "Products"], $model->categories->pluck('name')->toArray());
     }
 
-    public function testCategorizeById()
+    public function testUncategorizeIds()
     {
-        $model = TestModel::create(['title' => 'test']);
-        $foo = Category::create(["name" => "foo"]);
-        $bar = Category::create(["name" => "bar"]);
-        $model->categorize("{$bar->tag_id}");
-        $this->assertCount(1, $model->categories);
-        $this->assertEquals($bar->id, $model->categories->pluck('id')->first());
+        $foo = Category::create(['name' => 'foo']);
+        $bar = Category::create(['name' => 'bar']);
+        $thing = TestModel::create(['title' => 'foo']);
+
+        $thing->categories()->attach([$foo->id, $bar->id]);
+        $thing->uncategorize($bar->id);
+        $this->assertCount(1, $thing->categories);
+        $this->assertDatabaseHas('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $foo->id,
+        ]);
+
+        $this->assertDatabaseMissing('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $bar->id
+        ]);
     }
 
-    public function testCategorizeByManyId()
+    public function testRecategorizeIds()
     {
-        $model = TestModel::create(['title' => 'test']);
-        $foo = Category::create(["name" => "foo"]);
-        $bar = Category::create(["name" => "bar"]);
-        $model->categorize(["{$foo->tag_id}", "{$bar->tag_id}"]);
-        $this->assertCount(2, $model->categories);
-        $this->assertEquals([$foo->tag_id, $bar->tag_id], $model->categories->pluck('tag_id')->toArray());
-    }
-    
-    public function testCategoryUnTagId()
-    {
-        $this->testModel->categorize([1,2,3]);
-        $this->testModel->uncategorize(1);
-        $this->assertEquals(
-            "2,3",
-            $this->testModel->tagList
-        );
+        $foo = Category::create(['name' => 'foo']);
+        $bar = Category::create(['name' => 'bar']);
+        $thing = TestModel::create(['title' => 'foo']);
+
+        $thing->categories()->attach([$foo->id]);
+        $thing->recategorize($bar->id);
+        $this->assertCount(1, $thing->categories);
+        $this->assertDatabaseHas('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $bar->id,
+        ]);
+
+        $this->assertDatabaseMissing('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $foo->id
+        ]);
     }
 
-    public function testCategoryReTagId()
+    public function testCategoryDeaategorize()
     {
-        $this->testModel->categorize(1);
-        $this->testModel->recategorize(2);
-        $this->assertEquals(
-            2,
-            $this->testModel->tagList
-        );
-    }
+        $foo = Category::create(['name' => 'foo']);
+        $thing = TestModel::create(['title' => 'foo']);
+        $thing->categories()->attach([$foo->id]);
+        $thing->decategorize();
 
-    public function testCategoryDeTagId()
-    {
-        $this->testModel->categorize(1);
-        $this->testModel->uncategorize(1);
-        $this->assertEquals(
-            "",
-            $this->testModel->tagList
-        );
+        $this->assertDatabaseMissing('categorizable', [
+            'categorizable_type' => TestModel::class,
+            'categorizable_id' => $thing->id,
+            'category_id' => $foo->id,
+        ]);
     }
 
     public function testAssociateParent()
     {
-        $parent = Category::create(['name' => 'parent']);
-        $child = Category::create(['name' => 'child']);
+        $node = Category::create([
+            'name' => 'Foo',
+            'children' => [
+                [
+                    'name' => 'Bar',
 
-        $child->parent()->associate($parent)->save();
+                    'children' => [
+                        [ 'name' => 'Baz' ],
+                    ],
+                ],
+            ],
+        ]);
 
-        $this->assertEquals('child', $parent->refresh()->children->first()->name);
+        $this->assertEquals('child', $parent->children->first()->name);
     }
 
     public function testRemoveCategory()
     {
         $category = Category::create(['name' => 'parent']);
-        $this->testModel->categorize($category->tag_id);
-        $category->delete();
+        $thing = TestModel::create(['title' => 'foo']);
+        config()->set('categorizable.morphs', ['tests' => TestModel::class]);
+        $thing->categorize($category->id);
+        $result = $category->delete();
 
-        $this->assertSoftDeleted('taggable_tags', ['tag_id' => $category->tag_id]);
-        $this->assertSoftDeleted('taggable_taggables', [
-            'taggable_id' => $this->testModel->id,
-            'taggable_type' => get_class($this->testModel)
+        $this->assertDatabaseMissing('categories', ['id' => $category->id]);
+        $this->assertDatabaseMissing('categorizable', [
+            'categorizable_id' => $thing->id,
+            'categorizable_type' => TestModel::class
         ]);
     }
 }

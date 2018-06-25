@@ -23,9 +23,6 @@
     ],
     "require": {
         "php": "^7.0",
-        "askedio/laravel-soft-cascade": "~5.5.0",
-        "cviebrock/eloquent-taggable": "^3.2",
-        "doctrine/dbal": "^2.7",
         "illuminate/config": "~5.5.0",
         "illuminate/database": "~5.5.0",
         "illuminate/support": "~5.5.0",

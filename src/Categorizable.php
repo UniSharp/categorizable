@@ -1,41 +1,66 @@
 <?php
 namespace UniSharp\Categorizable;
 
-use Cviebrock\EloquentTaggable\Taggable;
 use Illuminate\Database\Eloquent\Builder;
+use UniSharp\Categorizable\Models\Category;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait Categorizable
 {
-    use Taggable;
-
     public function categories(): MorphToMany
     {
-        return $this->tags();
+        return $this->morphToMany(Category::class, 'categorizable', 'categorizable');
     }
 
-    public function categorize($categories)
+    public function categorize(...$categories): self
     {
-        return $this->tag($categories);
+        $result = $this->categories()->attach($this->differenceBetweenExistences($this->normalize($categories)));
+        return $this->load('categories');
     }
 
-    public function uncategorize($categories)
+    public function uncategorize(...$categories): self
     {
-        return $this->untag($categories);
+        $this->categories()->detach($this->normalize($categories));
+        return $this->load('categories');
     }
 
-    public function decategorize($categories)
+    public function decategorize(): self
     {
-        return $this->detag($categories);
+        $this->categories()->sync([]);
+        return $this->load('categories');
     }
 
-    public function recategorize($categories)
+    public function recategorize(...$categories): self
     {
-        return $this->retag($categories);
+        $this->decategorize()->categorize(...$categories);
+        return $this->load('categories');
     }
 
-    public function scopeWithAllCategories(Builder $query, $categories): Builder
+    /*
+     * Convert everything to category ids
+     */
+    public function normalize(array $categories): array
     {
-        return $this->scopeWithAllTags($query, $tags);
+        $ids = collect($categories)->map(function ($categories) {
+            switch (true) {
+                case is_integer($categories) || is_numeric($categories):
+                    return $categories;
+                    break;
+                case is_string($categories):
+                    return Category::firstOrCreate(['name' => $categories])->id;
+                    break;
+                case is_array($categories):
+                    return $this->normalize($categories);
+                    break;
+            }
+        })->flatten()->toArray();
+
+        // reject ids not exist in database
+        return Category::whereIn('id', $ids)->pluck('id')->toArray();
+    }
+
+    protected function differenceBetweenExistences(array $ids): array
+    {
+        return array_diff($ids, $this->categories->pluck('id')->toArray());
     }
 }

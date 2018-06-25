@@ -3,7 +3,6 @@ namespace UniSharp\Categorizable\Test;
 
 use Kalnoy\Nestedset\NestedSetServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Cviebrock\EloquentTaggable\ServiceProvider;
 use UniSharp\Categorizable\Providers\CategorizableServiceProvider;
 
 abstract class TestCase extends Orchestra
@@ -33,9 +32,8 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            ServiceProvider::class,
-            CategorizableServiceProvider::class,
             NestedSetServiceProvider::class,
+            CategorizableServiceProvider::class,
             TestServiceProvider::class,
         ];
     }
@@ -43,7 +41,6 @@ abstract class TestCase extends Orchestra
     protected function getEnvironmentSetUp2($app)
     {
         parent::getEnvironmentSetUp($app);
-        $app['config']->set('taggable.taggedModels', "['testModels' => \App\TestModel::class]");
     }
 
     protected function newModel(array $data = ['title' => 'test'])
