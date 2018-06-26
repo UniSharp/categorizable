@@ -39,7 +39,7 @@ $post->categorize("News"); // by category name and it will create new one if it 
 
 $post->categorize([1, "news"]); // You can use array
 
-$post->categorize(1, "news"); // it's same to use array
+$post->categorize(1, "news"); // it's same as using array
 
 ```
 
