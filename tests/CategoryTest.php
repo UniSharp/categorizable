@@ -12,7 +12,6 @@ class CategoriesTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->testModel = $this->newModel();
         $this->app->singleton(TagService::class, UnisharpTagService::class);
     }
 
