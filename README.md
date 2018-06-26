@@ -1,4 +1,4 @@
-# category
+# Categorizable 
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -13,46 +13,80 @@ PSRs you support to avoid any confusion with users and contributors.
 ## Structure
 
 
-```
-config/
-src/
-tests/
-```
-
-
 ## Install
 
 Via Composer
 
 ``` bash
-$ composer require UniSharp/category
+$ composer require unisharp/categorizable
 ```
 
 ## Usage
 
 ``` php
-use UniSharp\Category\Categorized;
+use UniSharp\Category\Categoriziable;
 
-class testModel extends Model{
-
-    use Categorized;
+class Post extends Model{
+    use Categorizable;
 }
 ```
 
-you can categorize, recategorize, decategorize, uncategorize, by id
+### categorize
+
+You can categorize by id, name or mixed array and id won't add duplicate category
 
 ``` php
-testModel->categorize(1);
-testModel->recategorize(1);
-testModel->decategorize(0);
-testModel->uncategorize(2);
+$post->categorize(1); // by category id, it will do nothing if it can't find this category
+
+$post->categorize("News"); // by category name and it will create new one if it can't find category
+
+$post->categorize([1, "news"]); // You can use array
+
+$post->categorize(1, "news"); // it's same to use array
+
 ```
 
-alse use id find Model (get model)
+### uncategorize
+
+It will remove category just like categorize
 
 ``` php
-TestModel::withAllTagsId(2)
+$post->uncategorize(1);
+
+$post->uncategorize("News");
+
+$post->uncategorize([1, "news"]);
+
+$post->uncategorize(1, "news");
+
 ```
+
+### decategorize
+
+remove all category
+
+```php
+$post->decategorize();
+
+```
+
+### recategorize
+
+it will add category after clean all binding categories
+
+same as $post->decategorize()->categorize(....)
+
+```php
+$post->recategorize(1);
+
+$post->recategorize("News");
+
+$post->recategorize([1, "news"]);
+
+$post->recategorize(1, "news");
+
+```
+
 
 ## Change log
 
