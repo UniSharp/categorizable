@@ -84,6 +84,14 @@ $post->recategorize(1, "news");
 
 ```
 
+### hasCategories
+
+You can find model which has specify categories
+
+```php
+Post::hasCategories('News', 1)->get();
+```
+
 
 ## Change log
 
