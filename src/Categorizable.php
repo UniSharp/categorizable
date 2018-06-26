@@ -36,6 +36,13 @@ trait Categorizable
         return $this->load('categories');
     }
 
+    public function scopeHasCategories(Builder $builder, ...$categories): Builder
+    {
+        return $builder->whereHas('categories', function (Builder $query) use ($categories) {
+            $query->whereIn('category_id', $this->normalize($categories));
+        });
+    }
+
     /*
      * Convert everything to category ids
      */

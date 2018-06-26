@@ -9,12 +9,6 @@ use UniSharp\Categorizable\Services\TagService as UnisharpTagService;
 
 class CategoriesTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        $this->app->singleton(TagService::class, UnisharpTagService::class);
-    }
-
     public function testNormalizeInteger()
     {
         $foo = Category::create(['name' => 'foo']);
@@ -177,5 +171,26 @@ class CategoriesTest extends TestCase
             'categorizable_id' => $thing->id,
             'categorizable_type' => TestModel::class
         ]);
+    }
+
+    public function testFindModelHasCategories()
+    {
+        $category = Category::create(['name' => 'News']);
+        $thing = TestModel::create(['title' => 'foo']);
+        $thing->categorize($category->id);
+
+        $this->assertCount(1, TestModel::hasCategories('News')->get());
+    }
+
+    public function testFindModelDosentHasCategories()
+    {
+        $category = Category::create(['name' => 'News']);
+        $thing = TestModel::create(['title' => 'foo']);
+        $this->assertCount(0, TestModel::hasCategories('News')->get());
+    }
+
+    public function testFindModelHasCategoriesByUnexistCategory()
+    {
+        $this->assertCount(0, TestModel::hasCategories('Nothing')->get());
     }
 }
