@@ -193,4 +193,16 @@ class CategoriesTest extends TestCase
     {
         $this->assertCount(0, TestModel::hasCategories('Nothing')->get());
     }
+
+    public function testListMorphs()
+    {
+        config()->set('categorizable.morphs', ['tests' => TestModel::class]);
+        $category = Category::create(['name' => 'news']);
+        $foo = TestModel::create(['title' => 'foo']);
+        $bar = TestModel::create(['title' => 'bar']);
+        $foo->categorize($category->id);
+        $bar->categorize($category->id);
+        $category->refresh();
+        $this->assertCount(2, $category->load('tests')->tests);
+    }
 }

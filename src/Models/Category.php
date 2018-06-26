@@ -23,7 +23,7 @@ class Category extends Model
 
     public function categorizables($class)
     {
-        return $this->morphedByMany($class, 'categorizable');
+        return $this->morphedByMany($class, 'categorizable', 'categorizable', 'category_id');
     }
 
     public function getRelationValue($key)
@@ -34,7 +34,7 @@ class Category extends Model
 
         if (array_key_exists($key, config('categorizable.morphs', []))) {
             $class = config('categorizable.morphs')[$key];
-            $relation = $this->morphedByMany($class, 'categorizable', 'categorizable', 'id');
+            $relation = $this->categorizables($class);
             return tap($relation->getResults(), function ($results) use ($key) {
                 $this->setRelation($key, $results);
             });
@@ -48,7 +48,7 @@ class Category extends Model
     {
         if (array_key_exists($method, config('categorizable.morphs', []))) {
             $class = config('categorizable.morphs')[$method];
-            return $this->morphedByMany($class, 'categorizable', 'categorizable', 'id');
+            return $this->categorizables($class);
         }
 
         return parent::__call($method, $arguments);
