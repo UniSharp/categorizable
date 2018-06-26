@@ -21,9 +21,9 @@ $ composer require unisharp/categorizable
 ## Usage
 
 ``` php
-use UniSharp\Category\Categoriziable;
+use UniSharp\Category\Categorizable;
 
-class Post extends Model{
+class Post extends Model {
     use Categorizable;
 }
 ```
