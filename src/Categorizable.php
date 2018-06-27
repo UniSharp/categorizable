@@ -39,6 +39,13 @@ trait Categorizable
     public function scopeHasCategories(Builder $builder, ...$categories): Builder
     {
         return $builder->whereHas('categories', function (Builder $query) use ($categories) {
+            $query->whereIn('category_id', Category::descendantsAndSelf($this->normalize($categories))->pluck('id'));
+        });
+    }
+
+    public function scopeHasStrictCategories(Builder $builder, ...$categories): Builder
+    {
+        return $builder->whereHas('categories', function (Builder $query) use ($categories) {
             $query->whereIn('category_id', $this->normalize($categories));
         });
     }

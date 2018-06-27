@@ -173,11 +173,21 @@ class CategoriesTest extends TestCase
         ]);
     }
 
-    public function testFindModelHasCategories()
+    public function testFindModelHasStrictCategories()
     {
         $category = Category::create(['name' => 'News']);
         $thing = TestModel::create(['title' => 'foo']);
         $thing->categorize($category->id);
+
+        $this->assertCount(1, TestModel::hasStrictCategories('News')->get());
+    }
+
+    public function testFindModelHasCategories()
+    {
+        $parent = Category::create(['name' => 'News']);
+        $child = Category::create(['name' => 'HeadLine', 'parent_id' => $parent->id]);
+        $thing = TestModel::create(['title' => 'foo']);
+        $thing->categorize($child->id);
 
         $this->assertCount(1, TestModel::hasCategories('News')->get());
     }
