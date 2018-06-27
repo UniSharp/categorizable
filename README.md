@@ -87,6 +87,22 @@ $post->recategorize(1, "news");
 ### hasCategories
 
 You can find model which has specify categories
+it also search all children category 
+
+```php
+Post::hasCategories('News', 1)->get();
+```
+
+### hasStrictCategories
+
+It's same as hasCategories but just find category which you specify
+
+```php
+Post::hasStrictCategories('News', 1)->get();
+```
+
+You can find model which has specify categories
+it also search all children category 
 
 ```php
 Post::hasCategories('News', 1)->get();
