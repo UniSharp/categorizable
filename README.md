@@ -136,17 +136,17 @@ If you discover any security related issues, please email xing1615@gmail.com ins
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/UniSharp/category.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/UniSharp/categorizable.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/UniSharp/category/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/UniSharp/category.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/UniSharp/category.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/UniSharp/category.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/UniSharp/categorizable/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/UniSharp/categorizable.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/UniSharp/categorizable.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/UniSharp/categorizable.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/UniSharp/category
-[link-travis]: https://travis-ci.org/UniSharp/category
-[link-scrutinizer]: https://scrutinizer-ci.com/g/UniSharp/category/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/UniSharp/category
-[link-downloads]: https://packagist.org/packages/UniSharp/category
+[link-packagist]: https://packagist.org/packages/unisharp/categorizable
+[link-travis]: https://travis-ci.org/UniSharp/categorizable
+[link-scrutinizer]: https://scrutinizer-ci.com/g/UniSharp/categorizable/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/UniSharp/categorizable
+[link-downloads]: https://packagist.org/packages/UniSharp/categorizable
 [link-author]: https://github.com/Nehemis1615
 [link-contributors]: ../../contributors
