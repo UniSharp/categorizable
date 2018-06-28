@@ -14,7 +14,7 @@ trait Categorizable
 
     public function categorize(...$categories): self
     {
-        $result = $this->categories()->attach($this->differenceBetweenExistences($this->normalize($categories)));
+        $this->categories()->attach($this->differenceBetweenExistences($this->normalize($categories)));
         return $this->load('categories');
     }
 
@@ -59,13 +59,10 @@ trait Categorizable
             switch (true) {
                 case is_integer($categories) || is_numeric($categories):
                     return $categories;
-                    break;
                 case is_string($categories):
                     return Category::firstOrCreate(['name' => $categories])->id;
-                    break;
                 case is_array($categories):
                     return $this->normalize($categories);
-                    break;
             }
         })->flatten()->toArray();
 
