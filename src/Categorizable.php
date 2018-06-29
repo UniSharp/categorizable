@@ -75,7 +75,16 @@ trait Categorizable
         return array_diff($ids, $this->categories->pluck('id')->toArray());
     }
 
-    abstract public function hasMany($related, $foreignKey = null, $localKey = null);
+    abstract public function morphToMany(
+        $related,
+        $name,
+        $table = null,
+        $foreignPivotKey = null,
+        $relatedPivotKey = null,
+        $parentKey = null,
+        $relatedKey = null,
+        $inverse = false
+    );
 
     abstract public function load($relations);
 }
