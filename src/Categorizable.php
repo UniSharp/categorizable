@@ -74,4 +74,8 @@ trait Categorizable
     {
         return array_diff($ids, $this->categories->pluck('id')->toArray());
     }
+
+    abstract public function hasMany($related, $foreignKey = null, $localKey = null);
+
+    abstract public function load($relations);
 }
