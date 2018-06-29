@@ -61,6 +61,8 @@ trait Categorizable
                     return $categories;
                 case is_string($categories):
                     return Category::firstOrCreate(['name' => $categories])->id;
+                case $categories instanceof Category:
+                    return $categories->id;
                 case is_array($categories):
                     return $this->normalize($categories);
             }
