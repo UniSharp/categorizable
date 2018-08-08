@@ -59,14 +59,14 @@ trait Categorizable
     {
         $ids = collect($categories)->map(function ($categories) {
             switch (true) {
-            case is_integer($categories) || is_numeric($categories):
-                return $categories;
-            case is_string($categories):
-                return Category::firstOrCreate(['name' => $categories])->id;
-            case $categories instanceof Category:
-                return $categories->id;
-            case is_array($categories):
-                return $this->normalize($categories);
+                case is_integer($categories) || is_numeric($categories):
+                    return $categories;
+                case is_string($categories):
+                    return Category::firstOrCreate(['name' => $categories])->id;
+                case $categories instanceof Category:
+                    return $categories->id;
+                case is_array($categories):
+                    return $this->normalize($categories);
             }
         })->flatten()->toArray();
 
