@@ -23,9 +23,9 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/config": ">5.5.0",
-        "illuminate/database": ">5.5.0",
-        "illuminate/support": ">5.5.0",
+        "illuminate/config": ">=5.5.0",
+        "illuminate/database": ">=5.5.0",
+        "illuminate/support": ">=5.5.0",
         "kalnoy/nestedset": "^4.3"
     },
     "require-dev": {
