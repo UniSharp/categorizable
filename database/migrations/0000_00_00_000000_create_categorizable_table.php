@@ -17,7 +17,7 @@ class CreateCategorizableTable extends Migration
         $connection = config('categorizable.connection');
 
         Schema::connection($connection)->create('categories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name');
 
             $table->nestedSet();
@@ -25,7 +25,7 @@ class CreateCategorizableTable extends Migration
         });
 
         Schema::connection($connection)->create('categorizable', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->unsignedInteger('category_id');
             $table->nullableMorphs('categorizable');
 
