@@ -23,10 +23,10 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/config": ">=5.5.0 || >=6.0.0",
-        "illuminate/database": ">=5.5.0 || >=6.0.0",
-        "illuminate/support": ">=5.5.0 || >=6.0.0",
-        "kalnoy/nestedset": ">=4.3 || >=5.0.0"
+        "illuminate/config": ">=5.5.0",
+        "illuminate/database": ">=5.5.0",
+        "illuminate/support": ">=5.5.0",
+        "kalnoy/nestedset": "^5.0"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.4.4 || ^0.26.0",
@@ -34,7 +34,7 @@
         "mockery/mockery": "^0.9.4 || ^1.0.0",
         "orchestra/database": "~3.5.0 || ~4.0.0",
         "orchestra/testbench": "~3.5.0 || ~4.0.0",
-        "phpunit/phpunit": "^6.2 || ^7.0 || ^8.0",
+        "phpunit/phpunit": "^6.2 || ^7.0|^8.0",
         "squizlabs/php_codesniffer": "3.*",
         "scrutinizer/ocular": "^1.3"
     },
